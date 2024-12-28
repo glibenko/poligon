@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -13,30 +13,49 @@ import {
   Text,
   useColorScheme,
   View,
+  SafeAreaView,
 } from 'react-native';
+import { AnimatedBootSplash } from './AnimatedBootSplash';
+// import BootSplash from "react-native-bootsplash";
 
+const pr = new Promise((resolve => setTimeout(() => resolve('done'), 3000)));
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+  const [visible, setVisible] = React.useState(true);
 
   console.log('isDarkMode', isDarkMode);
+
+  // useEffect(() => {
+  //   const init = async () => {
+  //     // …do multiple sync or async tasks
+  //     await pr;
+  //   };
+
+  //   init().finally(async () => {
+  //     await BootSplash.hide({ fade: true });
+  //     console.log("BootSplash has been hidden successfully");
+  //   });
+  // }, []);
 
   // const backgroundStyle = {
   //   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   // };
 
   return (
-    <View>
+    <>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic">
-        <View>
+        <SafeAreaView style={{flex: 1}}>
+        {visible ? <AnimatedBootSplash
+          onAnimationEnd={() => {
+            setVisible(false);
+          }}
+        /> : null}
           <Text>lol work</Text>
-        </View>
-      </ScrollView>
-    </View>
+        </SafeAreaView>
+    </>
   );
 }
 
