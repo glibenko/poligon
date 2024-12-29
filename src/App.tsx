@@ -26,7 +26,7 @@ const queryClient = new QueryClient();
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = React.useState(true);
 
   console.log('isDarkMode', isDarkMode);
 
@@ -52,16 +52,16 @@ function App(): React.JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
       />
         <SafeAreaView style={{flex: 1}}>
-        {visible && Platform.OS !== 'web' ? <AnimatedBootSplash
-          onAnimationEnd={() => {
-            setVisible(true);
-          }}
-        /> : null}
           <Text>lol work</Text>
           {/* <Stocks />
            */}
           <Tickers />
         </SafeAreaView>
+        {visible && Platform.OS !== 'web' ? <AnimatedBootSplash
+          onAnimationEnd={() => {
+            setVisible(false);
+          }}
+        /> : null}
         </QueryClientProvider>
   );
 }

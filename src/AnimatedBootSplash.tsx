@@ -1,9 +1,11 @@
-import React, { useRef, useState } from "react";
-import { Animated, Image, Text, useAnimatedValue, View } from "react-native";
+import React, {useState } from "react";
+import { Animated, Image, StyleSheet, Text, View } from "react-native";
 import BootSplash from "react-native-bootsplash";
 
 
-export const AnimatedBootSplash = ({ onAnimationEnd }) => {
+export const AnimatedBootSplash = ({ onAnimationEnd }: {
+  onAnimationEnd: () => void;
+}) => {
   // const opacity = useAnimatedValue(1);
   const [opacity] = useState(() => new Animated.Value(1));
 
@@ -23,21 +25,31 @@ export const AnimatedBootSplash = ({ onAnimationEnd }) => {
       Animated.timing(opacity, {
         useNativeDriver: true,
         toValue: 0,
-        duration: 1000,
+        duration: 500,
       }).start(() => {
         onAnimationEnd();
       });
     },
   });
 
-  console.log('container.style', container.style)
-
   return (
-    <Animated.View {...container} style={[container.style, { opacity, backgroundColor: '#ccc'}]}>
+    <Animated.View {...container} style={[container.style, { opacity}]}>
       <Image {...logo} />
-      <View style={{position: "absolute", bottom: 30}}>
-        <Text>Glibenko Sergei</Text>
+      <View style={styles.textContainer}>
+        <Text style={styles.text}>Glibenko Sergei</Text>
       </View>
     </Animated.View>
   );
 };
+
+const styles = StyleSheet.create({
+  textContainer: {
+    position: "absolute",
+    bottom: 30
+  },
+  text: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+  }
+});
