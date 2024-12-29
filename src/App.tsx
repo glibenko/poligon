@@ -16,9 +16,12 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { AnimatedBootSplash } from './AnimatedBootSplash';
+import { Stocks } from './Stocks';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // import BootSplash from "react-native-bootsplash";
 
 const pr = new Promise((resolve => setTimeout(() => resolve('done'), 3000)));
+const queryClient = new QueryClient();
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -43,7 +46,7 @@ function App(): React.JSX.Element {
   // };
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
       />
@@ -54,8 +57,9 @@ function App(): React.JSX.Element {
           }}
         /> : null}
           <Text>lol work</Text>
+          <Stocks />
         </SafeAreaView>
-    </>
+        </QueryClientProvider>
   );
 }
 
