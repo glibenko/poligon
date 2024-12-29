@@ -1,18 +1,18 @@
-import React, {useState } from "react";
-import { Animated, Image, StyleSheet, Text, View } from "react-native";
-import BootSplash from "react-native-bootsplash";
+import React, { useState } from 'react';
+import { Animated, Image, StyleSheet, Text, View } from 'react-native';
+import BootSplash from 'react-native-bootsplash';
 
-
-export const AnimatedBootSplash = ({ onAnimationEnd }: {
+export const AnimatedBootSplash = ({
+  onAnimationEnd,
+}: {
   onAnimationEnd: () => void;
 }) => {
-  // const opacity = useAnimatedValue(1);
   const [opacity] = useState(() => new Animated.Value(1));
 
   const { container, logo /*, brand */ } = BootSplash.useHideAnimation({
-    manifest: require("../assets/bootsplash/manifest.json"),
+    manifest: require('../assets/bootsplash/manifest.json'),
 
-    logo: require("../assets/bootsplash/logo.png"),
+    logo: require('../assets/bootsplash/logo.png'),
     // darkLogo: require("../assets/bootsplash/dark-logo.png"),
     // brand: require("../assets/bootsplash/brand.png"),
     // darkBrand: require("../assets/bootsplash/dark-brand.png"),
@@ -33,7 +33,7 @@ export const AnimatedBootSplash = ({ onAnimationEnd }: {
   });
 
   return (
-    <Animated.View {...container} style={[container.style, { opacity}]}>
+    <Animated.View {...container} style={[container.style, { opacity }]}>
       <Image {...logo} />
       <View style={styles.textContainer}>
         <Text style={styles.text}>Glibenko Sergei</Text>
@@ -44,12 +44,12 @@ export const AnimatedBootSplash = ({ onAnimationEnd }: {
 
 const styles = StyleSheet.create({
   textContainer: {
-    position: "absolute",
-    bottom: 30
+    position: 'absolute',
+    bottom: 30,
   },
   text: {
     fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
-  }
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
 });

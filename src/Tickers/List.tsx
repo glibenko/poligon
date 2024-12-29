@@ -1,77 +1,139 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import React, { useEffect, useMemo } from "react";
-import { Dimensions, FlatList, Text, TextInput, useWindowDimensions, View } from "react-native";
-import { API_KEY } from "../keys";
-import { ListItem } from "./ListItem";
+import { useInfiniteQuery } from '@tanstack/react-query';
+import React, { useMemo } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+} from 'react-native';
+import { ListItem } from './ListItem';
+import { fetchTickers } from '../helpers';
+import { Ticker, TickerResponse } from '../types';
+import { ListEmpty } from './ListEmpty';
 
-const URL = 'https://api.polygon.io/v3/reference/tickers';
-
-
-export const List = ({search}) => {
-  // const {width} = Dimensions.get('window');
-  const {height, width, scale, fontScale} = useWindowDimensions();
+export const List = ({ search }: { search: string }) => {
+  const { width } = useWindowDimensions();
   const columns = useMemo(() => Math.floor(width / (150 + 20)), [width]);
 
-  const { data,
+  const {
+    data,
     error,
     fetchNextPage,
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-    status} = useInfiniteQuery({
-    select: (data) => data?.pages?.flatMap((page) => [...page?.results]),
-    queryKey: ['todos', search], initialPageParam: undefined,
+  } = useInfiniteQuery<TickerResponse, Error, Ticker[]>({
+    select: (d) => d?.pages?.flatMap((page) => [...page?.results]),
+    queryKey: ['todos', search],
+    initialPageParam: '',
     getNextPageParam: (lastPage) => lastPage?.next_url,
     retry: 2,
     staleTime: 60 * 1000 * 60, // 1 hour
-    queryFn: ({ pageParam }) => {
-      console.log('pageParam', pageParam);
-      const searchParam = search ? `search=${search}&` : '';
-      return axios(`${pageParam ? pageParam + '&' : URL + '?'}${searchParam}&limit=100&active=true&apiKey=${API_KEY}`).then(res => res.data)
-    } });
+    queryFn: ({ pageParam = '' }: { pageParam: any }) =>
+      fetchTickers(pageParam, search),
+  });
 
   if (isFetching && !data) {
-    return <View><Text>Loading...</Text></View>
+    return <ListEmpty />;
   }
 
   if (error && !data) {
-    return <View><Text>{error.message || 'Something went wrong'}</Text></View>
+    return (
+      <View style={styles.error}>
+        <Text style={styles.errorText}>
+          {error.message || 'Something went wrong'}
+        </Text>
+      </View>
+    );
   }
 
-
   return (
-    <View style={{backgroundColor: 'red', height: 400}}>
+    <View
+      style={Platform.OS === 'web' ? styles.containerWeb : styles.container}
+    >
       <FlatList
         key={columns}
-        style={{backgroundColor: 'green'}}
-        contentContainerStyle={{gap: 8}}
+        contentContainerStyle={styles.listContainer}
         data={data}
-        getItemLayout={(_data, index) => (
-          {length: 100, offset: 100 * index, index}
+        getItemLayout={(_data, index) => ({
+          length: 100,
+          offset: 100 * index,
+          index,
+        })}
+        renderItem={({ item }) => (
+          <ListItem title={item.name} ticker={item.ticker} />
         )}
-        // initialNumToRender={10}
-        // windowSize={10}
-        renderItem={({ item }) => <ListItem title={item.name} ticker={item.ticker} />}
         keyExtractor={(item) => item.ticker}
         numColumns={columns}
-        columnWrapperStyle={{gap: 8, justifyContent: 'center'}}
+        columnWrapperStyle={styles.wrapper}
         onEndReachedThreshold={0.5}
         progressViewOffset={0.5}
-        windowSize={2}
+        windowSize={10}
         initialNumToRender={8}
         maxToRenderPerBatch={8}
         onEndReached={() => {
-          console.log('onEndReached');
-          if (hasNextPage) {
+          if (hasNextPage && !isFetchingNextPage && !isFetching) {
             fetchNextPage();
           }
         }}
       />
-      {isFetchingNextPage && <Text>Loading more...</Text>}
-      {error && <Text>{error.message}</Text>}
+      <View style={styles.info}>
+        {isFetchingNextPage ? (
+          <>
+            <ActivityIndicator size="small" color="#ccc" />
+            <Text>Loading more...</Text>
+          </>
+        ) : null}
+        {error && !isFetchingNextPage ? (
+          <>
+            <Text style={styles.errorText}>
+              {error?.message || 'Something went wrong'}
+            </Text>
+            <Pressable style={styles.retry} onPress={() => fetchNextPage()}>
+              <Text>Retry</Text>
+            </Pressable>
+          </>
+        ) : null}
+      </View>
     </View>
   );
 };
 
-
+const styles = StyleSheet.create({
+  wrapper: { gap: 8, justifyContent: 'center' },
+  listContainer: {
+    gap: 8,
+  },
+  containerWeb: {
+    height: 'calc(100vh - 90px)',
+  },
+  container: {
+    flex: 1,
+  },
+  info: {
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+  },
+  error: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    color: 'red',
+  },
+  retry: {
+    borderRadius: 10,
+    borderColor: 'gray',
+    borderWidth: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+  },
+});
