@@ -4,7 +4,8 @@ import BootSplash from "react-native-bootsplash";
 
 
 export const AnimatedBootSplash = ({ onAnimationEnd }) => {
-  const opacity = useAnimatedValue(1);
+  // const opacity = useAnimatedValue(1);
+  const [opacity] = useState(() => new Animated.Value(1));
 
   const { container, logo /*, brand */ } = BootSplash.useHideAnimation({
     manifest: require("../assets/bootsplash/manifest.json"),
@@ -32,7 +33,7 @@ export const AnimatedBootSplash = ({ onAnimationEnd }) => {
   console.log('container.style', container.style)
 
   return (
-    <Animated.View {...container} style={[container.style, { opacity: opacity}]}>
+    <Animated.View {...container} style={[container.style, { opacity, backgroundColor: '#ccc'}]}>
       <Image {...logo} />
       <View style={{position: "absolute", bottom: 30}}>
         <Text>Glibenko Sergei</Text>

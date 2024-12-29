@@ -14,10 +14,11 @@ import {
   useColorScheme,
   View,
   SafeAreaView,
+  Platform,
 } from 'react-native';
 import { AnimatedBootSplash } from './AnimatedBootSplash';
-import { Stocks } from './Stocks';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Tickers } from './Tickers';
 // import BootSplash from "react-native-bootsplash";
 
 const pr = new Promise((resolve => setTimeout(() => resolve('done'), 3000)));
@@ -25,7 +26,7 @@ const queryClient = new QueryClient();
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-  const [visible, setVisible] = React.useState(true);
+  const [visible, setVisible] = React.useState(false);
 
   console.log('isDarkMode', isDarkMode);
 
@@ -51,13 +52,15 @@ function App(): React.JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
       />
         <SafeAreaView style={{flex: 1}}>
-        {visible ? <AnimatedBootSplash
+        {visible && Platform.OS !== 'web' ? <AnimatedBootSplash
           onAnimationEnd={() => {
-            setVisible(false);
+            setVisible(true);
           }}
         /> : null}
           <Text>lol work</Text>
-          <Stocks />
+          {/* <Stocks />
+           */}
+          <Tickers />
         </SafeAreaView>
         </QueryClientProvider>
   );
