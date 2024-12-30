@@ -20,9 +20,9 @@ export const debounce = (fn: (...args: any[]) => void, delay: number) => {
 };
 
 export const fetchTickers = (pageParam = '', search = '') => {
-  console.log('pageParam', pageParam);
-  const searchParam = search ? `search=${search}&` : '';
+  const searchParam = search ? `search=${search}` : '';
+  const nextUrl = pageParam ? pageParam + '&' : URL + '?';
   return axios<TickerResponse>(
-    `${pageParam ? pageParam + '&' : URL + '?'}${searchParam}&limit=100&active=true&apiKey=${API_KEY}`,
+    `${nextUrl}${searchParam}&limit=100&active=true&apiKey=${API_KEY}`,
   ).then((res) => res.data);
 };

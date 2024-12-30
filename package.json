@@ -5,11 +5,12 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "lint": "eslint .",
+    "lint": "eslint ./src",
     "start": "react-native start --reset-cache",
     "test": "jest",
-    "web": "webpack-dev-server --config ./web/webpack.config.js",
-    "pod": "cd ios && pod install"
+    "web": "webpack-dev-server --mode development --config ./web/webpack.config.js --watch",
+    "pod": "cd ios && pod install",
+    "build-web": "webpack --mode production --config ./web/webpack.config.js"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.62.11",

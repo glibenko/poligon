@@ -17,7 +17,7 @@ const babelLoaderConfiguration = {
   include: [
     path.resolve(appDirectory, 'index.js'),
     path.resolve(appDirectory, 'src'),
-    path.resolve(appDirectory, 'node_modules/react-native-uncompiled')
+    path.resolve(appDirectory, 'node_modules/react-native-uncompiled'),
   ],
   use: {
     loader: 'babel-loader',
@@ -26,9 +26,9 @@ const babelLoaderConfiguration = {
       // The 'metro-react-native-babel-preset' preset is recommended to match React Native's packager
       presets: ['module:metro-react-native-babel-preset'],
       // Re-write paths to import only the modules needed by the app
-      plugins: ['react-native-web']
-    }
-  }
+      plugins: ['react-native-web'],
+    },
+  },
 };
 
 // This is needed for webpack to import static images in JavaScript files.
@@ -39,8 +39,8 @@ const imageLoaderConfiguration = {
     options: {
       name: '[name].[ext]',
       esModule: false,
-    }
-  }
+    },
+  },
 };
 
 module.exports = {
@@ -48,37 +48,36 @@ module.exports = {
     // load any web API polyfills
     // path.resolve(appDirectory, 'polyfills-web.js'),
     // your web-specific entry file
-    path.resolve(appDirectory, 'index.js')
+    path.resolve(appDirectory, 'index.js'),
   ],
 
   // configures where the build ends up
   output: {
-    filename: 'bundle.web.js',
-    path: path.resolve(appDirectory, 'dist')
+    filename: './bundle.web.js',
+    path: path.resolve(appDirectory, 'dist'),
   },
 
   // ...the rest of your config
 
   module: {
-    rules: [
-      babelLoaderConfiguration,
-      imageLoaderConfiguration
-    ]
+    rules: [babelLoaderConfiguration, imageLoaderConfiguration],
   },
 
   resolve: {
     // This will only alias the exact import "react-native"
     alias: {
-      'react-native$': 'react-native-web'
+      'react-native$': 'react-native-web',
     },
     // If you're working on a multi-platform React Native app, web-specific
     // module implementations should be written in files using the extension
     // `.web.js`.
-    extensions: [ '.web.js', '.js', '.ts', '.tsx' ]
+    extensions: ['.web.js', '.js', '.web.tsx', '.ts', '.tsx'],
   },
-  mode: 'development',
-  watch: true,
-  plugins: [new HtmlWebpackPlugin({
-    template: path.resolve(appDirectory, './web/index.html')
-  })],
-}
+  // mode: 'development',
+  // watch: true,
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(appDirectory, './web/index.html'),
+    }),
+  ],
+};

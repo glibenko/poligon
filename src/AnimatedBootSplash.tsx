@@ -23,6 +23,7 @@ export const AnimatedBootSplash = ({
     animate: () => {
       // Perform animations and call onAnimationEnd
       Animated.timing(opacity, {
+        delay: 1000,
         useNativeDriver: true,
         toValue: 0,
         duration: 500,
