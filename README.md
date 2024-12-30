@@ -1,6 +1,6 @@
 # 🚀 poligon API integration  example
 
-*it's an educational project and migth be a template for your start*
+*it's an educational project and might be a template for your start*
 
 <p>
   <img width="200" src="./docs/demo_mobile.png" alt="Demo">
