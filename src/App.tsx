@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar, StyleSheet, SafeAreaView } from 'react-native';
-import { AnimatedBootSplash } from './AnimatedBootSplash';
+import { AnimatedBootSplash } from './Splash';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { Tickers } from './Tickers';
 import { queryClient } from './helpers';

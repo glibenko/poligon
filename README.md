@@ -4,7 +4,7 @@
 
 <p>
   <img width="200" src="./docs/demo_mobile.png" alt="Demo">
-  <img width="200" src="./docs/demo_web.png" alt="Demo">
+  <img width="550" src="./docs/demo_web.png" alt="Demo">
 </p>
 
 ## Before Start

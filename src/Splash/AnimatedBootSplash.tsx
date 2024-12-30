@@ -10,9 +10,9 @@ export const AnimatedBootSplash = ({
   const [opacity] = useState(() => new Animated.Value(1));
 
   const { container, logo /*, brand */ } = BootSplash.useHideAnimation({
-    manifest: require('../assets/bootsplash/manifest.json'),
+    manifest: require('../../assets/bootsplash/manifest.json'),
 
-    logo: require('../assets/bootsplash/logo.png'),
+    logo: require('../../assets/bootsplash/logo.png'),
     // darkLogo: require("../assets/bootsplash/dark-logo.png"),
     // brand: require("../assets/bootsplash/brand.png"),
     // darkBrand: require("../assets/bootsplash/dark-brand.png"),

@@ -31,7 +31,7 @@ export const AnimatedBootSplash = ({
       <Image
         resizeMode="contain"
         style={styles.logo}
-        source={require('./imgs/logo.png')}
+        source={require('../imgs/logo.png')}
       />
       <View style={styles.textContainer}>
         <Text style={styles.text}>Glibenko Sergei</Text>

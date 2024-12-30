@@ -8,9 +8,11 @@ export const ListItem = ({
   title: string;
   ticker: string;
 }) => (
-  <View style={styles.container}>
-    <Text style={styles.ticker}>{ticker}</Text>
-    <Text style={styles.title} numberOfLines={3}>
+  <View testID="ListItem" style={styles.container}>
+    <Text testID="ticker" style={styles.ticker}>
+      {ticker}
+    </Text>
+    <Text testID="title" style={styles.title} numberOfLines={3}>
       {title}
     </Text>
   </View>

@@ -43,7 +43,7 @@ export const List = ({ search }: { search: string }) => {
 
   if (error && !data) {
     return (
-      <View style={styles.error}>
+      <View testID="error" style={styles.error}>
         <Text style={styles.errorText}>
           {error.message || 'Something went wrong'}
         </Text>
@@ -53,6 +53,7 @@ export const List = ({ search }: { search: string }) => {
 
   return (
     <View
+      testID="list"
       style={Platform.OS === 'web' ? styles.containerWeb : styles.container}
     >
       <FlatList

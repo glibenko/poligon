@@ -1,0 +1,1 @@
+export { AnimatedBootSplash } from './AnimatedBootSplash';

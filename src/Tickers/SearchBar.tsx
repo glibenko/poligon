@@ -19,6 +19,7 @@ export const SearchBar = ({
   return (
     <View style={styles.cotainer}>
       <TextInput
+        testID="search"
         value={search}
         onChangeText={onChangeText}
         placeholder="Search..."

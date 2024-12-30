@@ -11,7 +11,9 @@ const ItemEmpty = () => (
 export const ListEmpty = () => (
   <View style={styles.container}>
     <ActivityIndicator size="large" color="#ccc" />
-    <Text style={styles.title}>Loading...</Text>
+    <Text style={styles.title} testID="loadingEmpty">
+      Loading...
+    </Text>
     <View style={styles.items}>
       <ItemEmpty />
       <ItemEmpty />
